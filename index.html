@@ -1,0 +1,49 @@
+17:48
+<invoke name="artifacts"> <parameter name="command">update</parameter> <parameter name="id">mechatronics_standalone</parameter> <parameter name="old_str"> } else if (comp.type ===</parameter> <parameter name="new_str"> } else if (comp.type === 'actuator') { special = `<div class="metric"><div class="metric-label">${comp.rpm !== undefined ? 'RPM' : 'Ângulo'}</div><div class="metric-value">${comp.rpm !== undefined ? comp.rpm : comp.angle}${comp.rpm !== undefined ? '' : '°'}</div></div>`; }
+  document.getElementById('special-metrics').innerHTML = special;
+}
+
+function resetScene() {
+  objects.forEach(obj => {
+    scene.remove(obj.mesh);
+    world.removeBody(obj.body);
+  });
+  objects = [];
+  selectedObject = null;
+  isGrabbing = false;
+  document.getElementById('obj-count').textContent = '0';
+  document.getElementById('metrics-panel').style.display = 'none';
+}
+
+function togglePause() {
+  isPaused = !isPaused;
+  document.getElementById('pause-text').textContent = isPaused ? '▶️ Continuar' : '⏸️ Pausar';
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+
+  if (!isPaused) {
+    world.step(1/60);
+    objects.forEach(obj => {
+      obj.mesh.position.copy(obj.body.position);
+      obj.mesh.quaternion.copy(obj.body.quaternion);
+    });
+
+    if (selectedObject) {
+      updateMetrics();
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+init();
+</script> </body> </html></parameter>
